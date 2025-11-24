@@ -1,9 +1,3 @@
-Claro que sí. He aplicado el mismo estilo visual, corrigiendo la numeración desordenada, eliminando pasos repetidos y estructurando la información para que sea clara y profesional.
-
-Aquí tienes el código Markdown listo para copiar y pegar en tu `README.md`:
-
------
-
 # 1\. Microservicio Autenticación (PRY\_AUTENTICACION\_MICROSERVICIO)
 
 > **Microservicio de Autenticación (Laravel)** — Gestión de usuarios, perfiles y emisión de tokens de seguridad (Sanctum).
@@ -23,6 +17,7 @@ Asegúrate de tener instalado lo siguiente:
   - **Composer**
   - **Node.js** y **npm**
   - **MySQL**
+
 
 -----
 
@@ -118,7 +113,7 @@ El sistema implementa permisos basados en roles:
 
 ## 🧪 Postman
 
-Se incluye una colección completa para pruebas en la carpeta `postman/`.
+Se incluye una colección completa para pruebas en la carpeta `postman/` en el eproyecto https://github.com/saoricoder/MicroservicioPos_ExmPractico_1P.git.
 
 **Características de la colección:**
 
