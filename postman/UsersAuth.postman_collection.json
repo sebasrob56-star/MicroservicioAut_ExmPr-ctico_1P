@@ -1,0 +1,205 @@
+{
+  "info": {
+    "name": "Users Auth API - Microservicio Autenticación",
+    "description": "Colección de pruebas para el microservicio de autenticación con Laravel Sanctum. Incluye registro, login, logout y consulta de información de usuario.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "01. Registro de Usuario",
+      "request": {
+        "method": "POST",
+        "header": [
+          {"key": "Content-Type", "value": "application/json"}
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/register",
+          "host": ["{{base_url}}"],
+          "path": ["api", "register"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"{{name}}\",\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Verificar que la respuesta sea exitosa",
+              "pm.test(\"Registro exitoso\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "// Verificar que el token esté presente",
+              "pm.test(\"Token generado correctamente\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('token');",
+              "    pm.expect(jsonData).to.have.property('user');",
+              "    pm.expect(jsonData.user).to.have.property('role');",
+              "    pm.expect(jsonData.token_type).to.eql('Bearer');",
+              "});",
+              "",
+              "// Guardar el token para usar en otras peticiones",
+              "var jsonData = pm.response.json();",
+              "pm.environment.set('token', jsonData.token);",
+              "pm.environment.set('user_id', jsonData.user.id);",
+              "pm.environment.set('user_role', jsonData.user.role);",
+              "",
+              "console.log('Usuario registrado con rol:', jsonData.user.role);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "02. Login de Usuario",
+      "request": {
+        "method": "POST",
+        "header": [
+          {"key": "Content-Type", "value": "application/json"}
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/login",
+          "host": ["{{base_url}}"],
+          "path": ["api", "login"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Verificar que el login sea exitoso",
+              "pm.test(\"Login exitoso\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "// Verificar estructura de respuesta",
+              "pm.test(\"Respuesta de login correcta\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('message');",
+              "    pm.expect(jsonData).to.have.property('token');",
+              "    pm.expect(jsonData).to.have.property('user');",
+              "    pm.expect(jsonData.message).to.eql('Usuario conectado exitosamente');",
+              "});",
+              "",
+              "// Guardar el token actualizado",
+              "var jsonData = pm.response.json();",
+              "pm.environment.set('token', jsonData.token);",
+              "pm.environment.set('user_role', jsonData.user.role);",
+              "",
+              "console.log('Login exitoso para usuario:', jsonData.user.email);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "03. Validar Token (protected)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {"key": "Authorization", "value": "Bearer {{token}}"}
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/validate-token",
+          "host": ["{{base_url}}"],
+          "path": ["api", "validate-token"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Verificar acceso protegido",
+              "pm.test(\"Acceso autorizado\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "// Verificar información del usuario",
+              "pm.test(\"Información de usuario completa\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('id');",
+              "    pm.expect(jsonData).to.have.property('name');",
+              "    pm.expect(jsonData).to.have.property('email');",
+              "    pm.expect(jsonData).to.have.property('role');",
+              "    pm.expect(jsonData).to.have.property('abilities');",
+              "    pm.expect(jsonData.abilities).to.be.an('array');",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "console.log('Usuario autenticado:', jsonData.name, 'Rol:', jsonData.role);",
+              "console.log('Habilidades:', jsonData.abilities);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "04. Logout",
+      "request": {
+        "method": "POST",
+        "header": [
+          {"key": "Authorization", "value": "Bearer {{token}}"},
+          {"key": "Content-Type", "value": "application/json"}
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/logout",
+          "host": ["{{base_url}}"],
+          "path": ["api", "logout"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Verificar logout exitoso",
+              "pm.test(\"Logout exitoso\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "// Verificar mensaje de confirmación",
+              "pm.test(\"Mensaje de confirmación correcto\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('message');",
+              "    pm.expect(jsonData.message).to.eql('Logout exitoso');",
+              "});",
+              "",
+              "// Limpiar token después de logout",
+              "pm.environment.set('token', '');",
+              "console.log('Logout realizado correctamente');"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "exec": [
+          "// Verificar que haya token para peticiones protegidas",
+          "if (pm.request.headers.get('Authorization')) {",
+          "    if (!pm.environment.get('token')) {",
+          "        console.warn('⚠️ No hay token disponible. Ejecute Login primero.');",
+          "    }",
+          "}"
+        ],
+        "type": "text/javascript"
+      }
+    }
+  ]
+}
