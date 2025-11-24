@@ -15,7 +15,7 @@ Estudiantes :
 1. **Clonar el repositorio**
    ```bash
    git clone https://github.com/sebasrob56-star/MicroservicioAut_ExmPr-ctico_1P.git
-   cd G7_microservicio_autenticacion
+   cd MicroservicioAut_ExmPr-ctico_1P
    ```
 
 2. **Instalar dependencias de PHP**
@@ -89,20 +89,21 @@ php artisan view:clear
 
 
 ### Rutas API - Autenticación
-**Base:** `/api/auth`
 
-#### Rutas Públicas
-| Método | Ruta | Descripción |
-|--------|------|-------------|
-| `POST` | `/api/auth/register` | Registro de nuevos usuarios con perfil |
-| `POST` | `/api/auth/login` | Inicio de sesión y generación de token |
+**Base URL:** `/api/login`
 
-#### Rutas Protegidas (Requieren Token)
+### Rutas Públicas
 | Método | Ruta | Descripción |
-|--------|------|-------------|
-| `POST` | `/api/auth/logout` | Cierre de sesión y eliminación de token |
-| `GET` | `/api/auth/me` | Información completa del usuario autenticado |
-| `GET` | `/api/auth/user` | Datos básicos del usuario (id, nombre, email, rol) |
+| :--- | :--- | :--- |
+| `POST` | `/api/login/register` | Registro de nuevos usuarios con perfil |
+| `POST` | `/api/login/login` | Inicio de sesión y generación de token |
+
+### Rutas Protegidas (Requieren Token)
+| Método | Ruta | Descripción |
+| :--- | :--- | :--- |
+| `POST` | `/api/login/logout` | Cierre de sesión y eliminación de token |
+| `GET` | `/api/login/me` | Información completa del usuario autenticado |
+| `GET` | `/api/login/user` | Datos básicos del usuario (id, nombre, email, rol) |
 
 ### Perfiles de Usuario
 El sistema implementa tres perfiles con diferentes niveles de permisos:
