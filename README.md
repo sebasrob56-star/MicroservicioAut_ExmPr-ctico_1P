@@ -1,5 +1,7 @@
-# Microserivicio Autenticación
-Estudiante : Betty Rodriguez
+# 1. Microservicio Autenticación (PRY_AUTENTICACION_MICROSERVICIO)
+Estudiantes : 
+* Betty Rodriguez
+* Victor Villamarin
 ## Ejecutar el Proyecto
 
 ### Requisitos Previos
@@ -12,7 +14,7 @@ Estudiante : Betty Rodriguez
 
 1. **Clonar el repositorio**
    ```bash
-   git clone https://github.com/saoricoder/G7_microservicio_autenticacion.git
+   git clone https://github.com/sebasrob56-star/MicroservicioAut_ExmPr-ctico_1P.git
    cd G7_microservicio_autenticacion
    ```
 
@@ -109,7 +111,7 @@ El sistema implementa tres perfiles con diferentes niveles de permisos:
 - **administrador**: Acceso completo a todos los recursos
 
 ### Colección Postman
-Para facilitar las pruebas, se incluye una colección completa de Postman en la carpeta `/postman` con:
+Para facilitar las pruebas, se incluye una colección completa de Postman en la carpeta `/postman` en PRY_POST_MICROSERVICIO con:
 - Todos los endpoints configurados
 - Variables de entorno
 - Scripts de prueba automáticos
